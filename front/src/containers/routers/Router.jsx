@@ -7,7 +7,7 @@ import NotFound from '../../components/NotFound'; // ruta publica
 //falta la lógica del estado del user para manejar lo que se ve y lo que no, está hardcodeado
 const Router = () => {
 
-    const loggedUser = true
+    const loggedUser = true;
 
     return (
         <div>
