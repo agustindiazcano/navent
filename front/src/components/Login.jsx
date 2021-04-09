@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { login } from '../state/user/actions';
 import styles from '../styles/form.module.css';
 import Button from '../components/UI/Button'
 const Login = () => {
   const { register, handleSubmit, watch, errors } = useForm();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const onSubmit = (data) => {
-    console.log(data, '<-----Este es el body');
-    //dispatch(login(data));
+    dispatch(login(data))
+      .then(() => history.push('/'))
   };
+
   return (
     <div className={styles.container}>
       <h2 className={styles.h2}>Ingresa tus datos</h2>

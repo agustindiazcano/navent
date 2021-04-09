@@ -1,37 +1,47 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { logOut } from '../state/user/actions'
 import styles from '../styles/navbar.module.scss';
 
 const Navbar = () => {
-  const logged = useSelector((state) => state.user.isAuth);
+  const user = useSelector((state) => state.user.user);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    dispatch(logOut());
+    history.push('/');
+  }
+
 
   return (
     <>
-        <div className={styles.navbar}>
-          <div className={styles.container}>
-            <Link to="/">
-              <img
-                className={styles.logo}
-                src={
-                  'https://www.bumeran.com.ar/candidate/static/media/bumeran.296e6bc2.svg'
-                }
-                alt="logo"
-              />
+      <div className={styles.navbar}>
+        <div className={styles.container}>
+          <Link to="/">
+            <img
+              className={styles.logo}
+              src={
+                'https://www.bumeran.com.ar/candidate/static/media/bumeran.296e6bc2.svg'
+              }
+              alt="logo"
+            />
+          </Link>
+          {!user?.id ? (
+            <Link to="/login" className={styles.link}>
+              <input type="button" value="Login" className={styles.link} />
             </Link>
-            {!logged ? (
-              <Link to="/login" className={styles.link}>
-                <input type="button" value="Login" className={styles.link} />
-              </Link>
-            ) : (
-              <Link to="/test">
-                <button className={styles.button}>Test</button>
-              </Link>
-            )}
-          </div>
+          ) : (
+            <Link to="/" className={styles.link}>
+              <button onClick={handleClick} className={styles.link}>Log Out</button>
+            </Link>
+          )}
         </div>
-      </>
-   
+      </div>
+    </>
+
   );
 };
 
